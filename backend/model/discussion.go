@@ -15,9 +15,8 @@ type Discussion struct {
 
 //根据分论坛ID获取分论坛详情
 func GetDiscussionDetailByID(ID uint) []Message {
-	var message []Message
 	discussion := new(Discussion)
 	discussion.ID = ID
-	DB.Model(&discussion).Association("Message").Find(&message)
-	return message
+	DB.Find(&discussion)
+	return discussion.Message
 }
