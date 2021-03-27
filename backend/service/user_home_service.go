@@ -10,5 +10,7 @@ type UserHomeService struct {
 }
 
 func UserMe(user model.User) serializer.Response {
-	
+	return serializer.Response{
+		Data:  user.GetUserDiscussions(),
+	}
 }

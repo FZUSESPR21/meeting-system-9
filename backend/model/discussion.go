@@ -14,7 +14,7 @@ type Discussion struct {
 
 
 //GetDiscussionDetail 根据分论坛ID获取分论坛详情
-func GetDiscussiondetail(ID uint) Discussion {
+func GetDiscussionDetail(ID uint) Discussion {
 	discussion := new(Discussion)
 	discussion.ID = ID
 	DB.Find(&discussion)
