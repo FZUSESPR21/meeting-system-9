@@ -8,7 +8,7 @@ import (
 type Discussion struct {
 	gorm.Model
 	UID 		uint		`gorm:"not null"`
-	Name 		string		`gorm:"not null;unique"`
+	Name 		string		`gorm:"not null"`
 	Message 	[]Message
 }
 

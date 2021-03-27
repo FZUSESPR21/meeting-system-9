@@ -86,15 +86,8 @@ func (user *User) GetChairmanDiscussion() Discussion {
 }
 
 //GetUserSum 获取用户总数
-<<<<<<< Updated upstream
 func GetUserSum() int {
 	var sum int
 	DB.Model(&User{}).Count(&sum)
-=======
-func GetUserSum() uint {
-	var users []User
-	DB.Find(&users)
-	sum := uint(len(users))
->>>>>>> Stashed changes
 	return sum
 }
