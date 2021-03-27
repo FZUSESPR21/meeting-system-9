@@ -92,3 +92,10 @@ func GetUserSum() uint {
 	sum := uint(len(users))
 	return sum
 }
+
+func GetChairman(ID uint) string{
+	var chairman User
+	chairman.ID = ID
+	DB.Find(&chairman)
+	return chairman.UserName
+}

@@ -8,7 +8,7 @@ import (
 type ShowDiscussionService struct {
 }
 
-func ShowDiscussionDetail() serializer.Response {
+func ShowDiscussionDetail(ID int) serializer.Response serializer.Response{
 
 	return BuildDiscussionDetailResponse()
 }

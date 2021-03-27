@@ -24,6 +24,6 @@ func SendMessage(ID uint, content string) error{
 	var message = Message{}
 	message.DiscussionID = ID
 	message.Content = content
-	DB.Save(message)
+	DB.Save(&message)
 	return nil
 }
