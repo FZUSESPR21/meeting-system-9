@@ -21,7 +21,7 @@ func DiscussionList(c *gin.Context) {
 func DiscussionDetail(c *gin.Context) {
 	var service service.ShowDiscussionService
 	i := c.Param("id")
-	if id, err := strconv.Atoi(i); err != nil {
+	if id, err := strconv.Atoi(i); err == nil {
 		res := service.ShowDiscussionDetail(id)
 		c.JSON(200, res)
 	} else {
@@ -55,7 +55,7 @@ func ChairmanSendMessage(c *gin.Context) {
 func DiscussionMemberSum(c *gin.Context) {
 	var service service.ShowDiscussionService
 	i := c.Param("id")
-	if id, err := strconv.Atoi(i); err != nil {
+	if id, err := strconv.Atoi(i); err == nil {
 		res := service.ShowDiscussionMember(id)
 		c.JSON(200, res)
 	} else {

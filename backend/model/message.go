@@ -8,10 +8,9 @@ import (
 //  Message 消息模型
 type  Message struct {
 	gorm.Model
-	Content 		string	`gorm:"not null"`
-	DiscussionID 	uint		`gorm:"not null;unique"`
+	Content 		string		`gorm:"not null"`
+	DiscussionID 	uint		`gorm:"not null"`
 }
-
 
 // SendMessage 秘书/分论坛主席 发送某个特定ID号的分论坛消息
 func SendMessage(ID uint, content string) error{
@@ -24,6 +23,6 @@ func SendMessage(ID uint, content string) error{
 	var message = Message{}
 	message.DiscussionID = ID
 	message.Content = content
-	DB.Save(&message)
+	DB.Create(&message)
 	return nil
 }

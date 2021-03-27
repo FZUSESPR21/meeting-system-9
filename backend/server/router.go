@@ -35,12 +35,12 @@ func NewRouter() *gin.Engine {
 		v1.POST("ping", api.Ping)
 
 		// 用户登录
-		v1.POST("user/signup", api.UserRegister)
+		v1.POST("signup", api.UserRegister)
 
 		// 用户登录
-		v1.POST("user/login", api.UserLogin)
+		v1.POST("login", api.UserLogin)
 
-		//v1.GET("discussion/list", api.)
+		v1.GET("discussion/list", api.DiscussionList)
 
 		// 需要登录保护的
 		auth := v1.Group("")
@@ -48,23 +48,17 @@ func NewRouter() *gin.Engine {
 		{
 			// User Routing
 			auth.GET("user/me", api.UserMe)
-			auth.DELETE("user/logout", api.UserLogout)
+			auth.DELETE("logout", api.UserLogout)
 
-			//auth.GET("discussion/detail/:id", api.)
+			auth.GET("discussion/detail/:id", api.DiscussionDetail)
 
-			//auth.GET("discussion/member/sum:id", api.)
+			auth.GET("discussion/member/sum/:id", api.DiscussionMemberSum)
 
-			auth.Use(middleware.RoleRequired(Secretory))
-			{
-				//auth.POST("secretary/message/send", )
-				//auth.GET("member/list", )
-			}
+			auth.POST("secretary/message/send", api.SecretorySendMessage)
+			auth.GET("member/list", api.MemberList)
 
-			auth.Use(middleware.RoleRequired(DiscussionChairman))
-			{
-				//auth.POST("chairman/message/send", )
-				//auth.GET("sum", )
-			}
+			auth.POST("chairman/message/send", api.ChairmanSendMessage)
+			auth.GET("sum", api.UserSum)
 		}
 	}
 	return r

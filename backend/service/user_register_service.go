@@ -10,9 +10,9 @@ import (
 
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
-	UserName        string 			`form:"username" json:"username" binding:"required,min=5,max=30"`
-	Password        string 			`form:"password" json:"password" binding:"required,min=8,max=40"`
-	Discussion		[]Discussions	`form:"discussion" json:"discussion"`
+	UserName        string 			`form:"username" json:"username" binding:"required,min=3,max=30"`
+	Password        string 			`form:"password" json:"password" binding:"required,min=4,max=40"`
+	Discussion		[]Discussions	`form:"discussion" json:"discussion" binding:"required"`
 }
 
 type Discussions struct {
@@ -36,17 +36,9 @@ func (service *UserRegisterService) valid() *serializer.Response {
 
 // Register 用户注册
 func (service *UserRegisterService) Register() serializer.Response {
-	var dis = make([]model.Discussion, 0)
-	for range service.Discussion {
-		dis = append(dis, model.Discussion{
-			UID:     0,
-			Name:    "",
-			Message: nil,
-		})
-	}
+
 	user := model.User{
 		UserName: service.UserName,
-		Discussion: dis,
 	}
 
 	// 表单验证
@@ -63,9 +55,18 @@ func (service *UserRegisterService) Register() serializer.Response {
 		)
 	}
 
+	var dis = make([]model.Discussion, 0)
+	for _, d := range service.Discussion {
+		var discussion model.Discussion
+		model.DB.Where("id = ?", d.ID).First(&discussion)
+		dis = append(dis, discussion)
+	}
+
 	// 创建用户
-	if err := model.DB.Create(&user).Error; err != nil {
+	if err := model.DB.Omit("Discussion").Create(&user).Error; err != nil {
 		return serializer.ParamErr("注册失败", err)
+	} else {
+		model.DB.Model(&user).Association("Discussion").Append(dis)
 	}
 
 	for _, discussion := range service.Discussion {

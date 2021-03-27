@@ -3,6 +3,7 @@ package api
 import (
 	"backend/serializer"
 	"backend/service"
+	"strconv"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -53,10 +54,20 @@ func UserLogout(c *gin.Context) {
 func UserSum(c *gin.Context) {
 	var service service.ShowDiscussionService
 	if err := c.ShouldBind(&service); err == nil {
-		res := service
+		res := service.ShowAllMember()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
 	}
 }
 
+func MemberList(c *gin.Context) {
+	var service service.ShowDiscussionService
+	p := c.DefaultQuery("page", "1")
+	if page, err := strconv.Atoi(p); err == nil {
+		res := service.ShowAllMemberInfo(int64(page))
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}

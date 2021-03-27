@@ -28,8 +28,10 @@ type Message struct {
 func BuildDiscussionDetail(discussion model.Discussion) Discussion {
 	var user model.User
 	model.DB.Where("id = ?", discussion.UID).First(&user)
+	var message []model.Message
+	model.DB.Model(&discussion).Related(&message)
 	messages := make([]Message, 0)
-	for _, msg := range discussion.Message {
+	for _, msg := range message {
 		messages = append(messages, Message{
 			Content: msg.Content,
 			CreateAt: msg.CreatedAt,
@@ -46,6 +48,7 @@ func BuildDiscussionDetailResponse(discussion model.Discussion) Response {
 	return Response{
 		Code:  0,
 		Data:  BuildDiscussionDetail(discussion),
+		Msg: "Success",
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 )
 
 type SecretorySendMessageService struct {
-	DiscussionId		uint		`form:"discussion_id" json:"discussion_id" binding:"required"`
+	DiscussionId		int		`form:"discussion_id" json:"discussion_id" binding:"required"`
 	Message				string		`form:"message" json:"message" binding:"required"`
 }
 
@@ -15,7 +15,7 @@ type ChairmanSendMessageService struct {
 }
 
 func (service *SecretorySendMessageService) SecretorySendMessage() serializer.Response {
-	if err := model.SendMessage(service.DiscussionId, service.Message); err != nil {
+	if err := model.SendMessage(uint(service.DiscussionId), service.Message); err != nil {
 		return serializer.ParamErr("论坛不存在", err)
 	} else {
 		return serializer.Response{

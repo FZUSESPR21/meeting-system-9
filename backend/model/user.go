@@ -40,17 +40,17 @@ func GetUser(ID interface{}) (User, error) {
 // GetUserList 获取参会者列表
 // 页码超出则返回nil, util.PageCountError, nil
 func GetUserList(page int64) ([]User, int64, error) {
-	var users []User
+	var user User
 	var total int64
 	var pageCount int64
-	DB.Model(&User{}).Count(&total)
+	DB.Model(&user).Count(&total)
 	if util.PageOverFlow(total, page) {
 		return nil, util.PageCountError, nil
 	} else {
 		pageCount = util.TotalPages(total)
 	}
-
-	result := DB.Find(&users).Limit(util.PageMaxSize).Offset(util.PageMaxSize * (page) - 1)
+	users := make([]User, 0)
+	result := DB.Where("auth = ?", 0).Limit(util.PageMaxSize).Offset(util.PageMaxSize * ((page) - 1)).Find(&users)
 	return users, pageCount, result.Error
 }
 

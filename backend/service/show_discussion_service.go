@@ -38,17 +38,24 @@ func (service *ShowDiscussionService)  ShowDiscussionMember(ID int) serializer.R
 	}
 	result, _ := strconv.Atoi(r)
 
-	return serializer.Response{
-		Code:  0,
-		Data:  serializer.BuildCountResponse(int(sum), result),
-		Msg:   "Success",
-	}
+	return serializer.BuildCountResponse(int(sum), result)
 }
 
-func ShowAllMember() serializer.Response {
+func (service *ShowDiscussionService) ShowAllMember() serializer.Response {
 	return serializer.Response{
 		Code:  0,
 		Data:  serializer.BuildCountResponse(model.GetUserSum(), 0),
 		Msg:   "Success",
 	}
+}
+
+func (service *ShowDiscussionService) ShowAllMemberInfo(page int64) serializer.Response {
+	user, pageCount, err := model.GetUserList(page)
+	if pageCount == util.PageCountError {
+		return serializer.ParamErr("页码错误", nil)
+	}
+	if err != nil {
+		return serializer.ParamErr("未知错误", err)
+	}
+	return serializer.BuildUserListResponse(user, page, pageCount)
 }

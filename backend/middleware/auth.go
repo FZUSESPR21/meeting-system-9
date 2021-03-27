@@ -41,22 +41,13 @@ func LoginRequired() gin.HandlerFunc {
 // RoleRequired
 func RoleRequired(role int) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if user, _ := c.Get("user"); user != nil {
-			if _, ok := user.(*model.User); ok {
-				u, _ := c.Get("user")
-				user, _ := u.(*model.User)
-				if user.Auth == role {
-					c.Next()
-					return
-				}
-
-				c.JSON(200, serializer.CheckAuth())
-				c.Abort()
-			} else {
-				c.JSON(200, serializer.CheckLogin())
-				c.Abort()
-			}
+		u, _ := c.Get("user")
+		user, _ := u.(*model.User)
+		if user.Auth == role {
+			c.Next()
+			return
 		}
-
+		c.JSON(200, serializer.CheckAuth())
+		c.Abort()
 	}
 }
