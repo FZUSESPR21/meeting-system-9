@@ -7,7 +7,7 @@ import (
 //  Discussion 分会议模型
 type Discussion struct {
 	gorm.Model
-	UID 		uint		`gorm:"not null;unique"`
+	UID 		uint		`gorm:"not null"`
 	Name 		string		`gorm:"not null;unique"`
 	Message 	[]Message
 }
