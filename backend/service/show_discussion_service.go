@@ -12,7 +12,7 @@ import (
 type ShowDiscussionService struct {
 }
 
-func ShowDiscussionDetail(ID int) serializer.Response {
+func (service *ShowDiscussionService) ShowDiscussionDetail(ID int) serializer.Response {
 	if ID < 0 {
 		return serializer.ParamErr("ID错误", nil)
 	}
@@ -20,11 +20,11 @@ func ShowDiscussionDetail(ID int) serializer.Response {
 	return serializer.BuildDiscussionDetailResponse(model.GetDiscussionDetail(uint(ID)))
 }
 
-func ShowDiscussionOnSignUp() serializer.Response {
+func (service *ShowDiscussionService) ShowDiscussionOnSignUp() serializer.Response {
 	return serializer.BuildDiscussionListResponse(model.GetDiscussionList())
 }
 
-func ShowDiscussionMember(ID int) serializer.Response {
+func (service *ShowDiscussionService)  ShowDiscussionMember(ID int) serializer.Response {
 	if ID < 0 {
 		return serializer.ParamErr("ID错误", nil)
 	}

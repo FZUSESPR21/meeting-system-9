@@ -9,7 +9,7 @@ type UserHomeService struct {
 	
 }
 
-func UserMe(user model.User) serializer.Response {
+func (service *UserHomeService) UserMe(user model.User) serializer.Response {
 	return serializer.Response{
 		Data:  user.GetUserDiscussions(),
 	}
