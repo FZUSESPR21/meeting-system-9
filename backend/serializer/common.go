@@ -41,6 +41,14 @@ func CheckLogin() Response {
 	}
 }
 
+// CheckAuth 检查权限
+func CheckAuth() Response {
+	return Response{
+		Code:  CodeNoRightErr,
+		Msg:   "没有权限",
+	}
+}
+
 // Err 通用错误处理
 func Err(errCode int, msg string, err error) Response {
 	res := Response{

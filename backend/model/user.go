@@ -1,6 +1,7 @@
 package model
 
 import (
+	"backend/util"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -8,9 +9,10 @@ import (
 // User 用户模型
 type User struct {
 	gorm.Model
-	UserName       		string  	`gorm:"not null;unique"`
-	PasswordDigest 		string		`gorm:"not null"`
-	Auth				int			`gorm:"not null"`
+	UserName       		string  		`gorm:"not null;unique"`
+	PasswordDigest 		string			`gorm:"not null"`
+	Auth				int				`gorm:"not null"`
+	Discussion			[]Discussion	`gorm:"many2many:user_discussion;"`
 }
 
 const (
@@ -33,6 +35,23 @@ func GetUser(ID interface{}) (User, error) {
 	var user User
 	result := DB.First(&user, ID)
 	return user, result.Error
+}
+
+// GetUserList 获取参会者列表
+// 页码超出则返回nil, util.PageCountError, nil
+func GetUserList(page int64) ([]User, int64, error) {
+	var users []User
+	var total int64
+	var pageCount int64
+	DB.Model(&User{}).Count(&total)
+	if util.PageOverFlow(total, page) {
+		return nil, util.PageCountError, nil
+	} else {
+		pageCount = util.TotalPages(total)
+	}
+
+	result := DB.Find(&users).Limit(util.PageMaxSize).Offset(util.PageMaxSize * (page) - 1)
+	return users, pageCount, result.Error
 }
 
 // SetPassword 设置密码
