@@ -48,3 +48,15 @@ func UserLogout(c *gin.Context) {
 		Msg:  "登出成功",
 	})
 }
+
+//UserSum 统计会议总人数
+func UserSum(c *gin.Context) {
+	var service service.ShowDiscussionService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}
+
