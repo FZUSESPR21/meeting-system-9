@@ -50,7 +50,7 @@ func GetUserList(page int64) ([]User, int64, error) {
 		pageCount = util.TotalPages(total)
 	}
 	users := make([]User, 0)
-	result := DB.Where("auth = ?", 0).Limit(util.PageMaxSize).Offset(util.PageMaxSize * ((page) - 1)).Find(&users)
+	result := DB.Preload("Discussion").Where("auth = ?", 0).Limit(util.PageMaxSize).Offset(util.PageMaxSize * ((page) - 1)).Find(&users)
 	return users, pageCount, result.Error
 }
 
