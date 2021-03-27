@@ -13,10 +13,17 @@ type Discussion struct {
 }
 
 
-//根据分论坛ID获取分论坛详情
-func GetDiscussionDetailByID(ID uint) []Message {
+//GetDiscussionDetail 根据分论坛ID获取分论坛详情
+func GetDiscussiondetail(ID uint) Discussion {
 	discussion := new(Discussion)
 	discussion.ID = ID
 	DB.Find(&discussion)
-	return discussion.Message
+	return *discussion
+}
+
+//ShowDiscussionList 注册时展示分论坛列表
+func ShowDiscussionList() []Discussion {
+	discussion := new([]Discussion)
+	DB.Find(&discussion)
+	return *discussion
 }

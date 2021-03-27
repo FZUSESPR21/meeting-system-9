@@ -72,11 +72,15 @@ func (user *User) CheckPassword(password string) bool {
 
 
 //根据用户ID展示其参加的各个分会议最新信息
-func GetDiscussionsByUserID(ID uint) []Discussion {
-	var discussion []Discussion
-	user := new(User)
-	user.ID = ID
+func (user *User) GetUserDiscussions() []Discussion {
+	var discussions []Discussion
+	DB.Model(&user).Association("Discussion").Find(&discussions)
+	return discussions
+}
+
+//获取分会议主席的最新信息
+func (user *User) GetChairmanDiscussion() Discussion {
+	var discussion Discussion
 	DB.Model(&user).Association("Discussion").Find(&discussion)
 	return discussion
 }
-
