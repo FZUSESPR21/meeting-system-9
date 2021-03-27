@@ -9,6 +9,6 @@ import (
 type  Message struct {
 	gorm.Model
 	Content 		string	`gorm:"not null"`
-	DiscussionID 	int		`gorm:"not null;unique"`
+	DiscussionID 	uint		`gorm:"not null;unique"`
 }
 

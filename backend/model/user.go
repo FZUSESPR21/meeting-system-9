@@ -69,3 +69,22 @@ func (user *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.PasswordDigest), []byte(password))
 	return err == nil
 }
+
+
+//根据用户ID展示其参加的各个分会议最新信息
+func GetDiscussionsByUserID(ID uint) []Discussion {
+	var discussion []Discussion
+	user := new(User)
+	user.ID = ID
+	DB.Model(&user).Association("Discussion").Find(&discussion)
+	return discussion
+}
+
+//秘书发送某个特定ID号的分论坛消息
+func SecretarySendMessage(ID uint, content string) Message {
+	var message = Message{}
+	message.DiscussionID = ID
+	message.Content = content
+	return message
+}
+
