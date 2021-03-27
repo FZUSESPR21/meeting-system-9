@@ -1,0 +1,13 @@
+#backImg {
+    background-image: './img/101.jpg';
+    background: '#364d79',
+}
+
+#pagebutton {
+    margin-top: 250px;
+    margin-left: 200px;
+}
+#pagebutton2 {
+    margin-top: 250px;
+    margin-left: 40px;
+}
