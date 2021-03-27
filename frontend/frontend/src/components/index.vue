@@ -18,36 +18,32 @@
   <el-menu-item index="3" v-if="discussion>1">参会者</el-menu-item>
   <el-menu-item index="4" v-if="discussion>2">发布信息</el-menu-item>
 
-  <el-row id="log" >  
-    
-    
-    
-  <el-dialog
-  title="登录"
-  :visible.sync="dialogVisible"
-  width="30%"
-  :before-close="handleClose">
-  <el-form ref="form" :model="form" size="small" label-width="100px">
-            <el-row>
-                <el-form-item label="用户名：" >
-                    <el-input class="search-input" v-model="form.id"/>
-                </el-form-item>
-                <el-form-item label="密码：">
-                    <el-input type="password" class="search-input" v-model="form.pw"/>
-                </el-form-item>
-            </el-row>
-        </el-form>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="success" @click="login('form')">登 录</el-button>
-  </span>
-</el-dialog>
-
-<el-button @click="toggleIslogin()">11</el-button>
-<el-button type="success"   @click="dialogVisible = true" v-if="aa">登 录</el-button>
-<el-button type="primary" @click="dialogVisible = true">注 册</el-button>
-
+  <el-row id="log" > 
+    <el-button type="success"   @click="dialogVisible = true" >登 录</el-button>
+      <router-link :to="{path:'/signup'}">
+          <el-button type="primary" >注 册</el-button>
+      </router-link>
   </el-row>
+      <el-dialog
+        title="登录"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="handleClose">
+        <el-form ref="form" :model="form" size="small" label-width="100px">
+                  <el-row>
+                      <el-form-item label="用户名：" >
+                          <el-input class="search-input" v-model="form.id"/>
+                     </el-form-item>
+                      <el-form-item label="密码：">
+                          <el-input type="password" class="search-input" v-model="form.pw"/>
+                     </el-form-item>
+                  </el-row>
+             </el-form>
+       <span slot="footer" class="dialog-footer">
+         <el-button @click="dialogVisible = false">取 消</el-button>
+         <el-button type="success" @click="login('form')">登 录</el-button>
+       </span>
+      </el-dialog>
 </el-menu>
 
 </el-header>
@@ -82,7 +78,7 @@
 var log =new Vue({
   el:"#log",
   data:{
-      aa:true
+      islogin:true
   },
   methods:{
       toggleIslogin:function(){
@@ -96,7 +92,7 @@ var log =new Vue({
 <script>
 
     export default {
-        name: "Login",
+        // name: "Login",
         data() {
            
           
