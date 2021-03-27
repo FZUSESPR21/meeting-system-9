@@ -32,8 +32,9 @@ func UserLogin(c *gin.Context) {
 
 // UserMe 用户详情
 func UserMe(c *gin.Context) {
+	var service	service.UserHomeService
 	user := CurrentUser(c)
-	res := serializer.BuildUserResponse(*user)
+	res := service.UserMe(*user)
 	c.JSON(200, res)
 }
 
@@ -47,3 +48,15 @@ func UserLogout(c *gin.Context) {
 		Msg:  "登出成功",
 	})
 }
+
+//UserSum 统计会议总人数
+func UserSum(c *gin.Context) {
+	var service service.ShowDiscussionService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}
+
