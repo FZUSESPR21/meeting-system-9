@@ -1,9 +1,9 @@
- package server
+package server
 
 import (
+	"backend/api"
+	"backend/middleware"
 	"os"
-	"singo/api"
-	"singo/middleware"
 
 	"github.com/gin-gonic/gin"
 )
