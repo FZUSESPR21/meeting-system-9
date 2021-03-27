@@ -12,7 +12,6 @@ type Discussion struct {
 	Message 	[]Message
 }
 
-
 //GetDiscussionDetail 根据分论坛ID获取分论坛详情
 func GetDiscussionDetail(ID uint) Discussion {
 	discussion := new(Discussion)
@@ -21,8 +20,8 @@ func GetDiscussionDetail(ID uint) Discussion {
 	return *discussion
 }
 
-//ShowDiscussionList 注册时展示分论坛列表
-func ShowDiscussionList() []Discussion {
+//GetDiscussionList 注册时展示分论坛列表
+func GetDiscussionList() []Discussion {
 	discussion := new([]Discussion)
 	DB.Find(&discussion)
 	return *discussion

@@ -1,14 +1,22 @@
 package service
 
 import (
+	"backend/cache"
 	"backend/model"
 	"backend/serializer"
+	"context"
+	"strconv"
 )
 
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
-	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
-	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
+	UserName        string 			`form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
+	Password        string 			`form:"password" json:"password" binding:"required,min=8,max=40"`
+	Discussion		[]Discussions	`form:"discussion" json:"discussion"`
+}
+
+type Discussions struct {
+	ID				uint	`form:"id" json:"id" binding:"required"`
 }
 
 // valid 验证表单
@@ -49,6 +57,10 @@ func (service *UserRegisterService) Register() serializer.Response {
 	// 创建用户
 	if err := model.DB.Create(&user).Error; err != nil {
 		return serializer.ParamErr("注册失败", err)
+	}
+
+	for _, discussion := range service.Discussion {
+		cache.RedisClient.Incr(context.Background(), "TM" + strconv.Itoa(int(discussion.ID)))
 	}
 
 	return serializer.BuildUserResponse(user)

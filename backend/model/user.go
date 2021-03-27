@@ -86,16 +86,8 @@ func (user *User) GetChairmanDiscussion() Discussion {
 }
 
 //GetUserSum 获取用户总数
-func GetUserSum() uint {
-	var users []User
-	DB.Find(users)
-	sum := uint(len(users))
+func GetUserSum() int {
+	var sum int
+	DB.Model(&User{}).Count(&sum)
 	return sum
-}
-
-func GetChairman(ID uint) string{
-	var chairman User
-	chairman.ID = ID
-	DB.Find(&chairman)
-	return chairman.UserName
 }

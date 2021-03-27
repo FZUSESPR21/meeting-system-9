@@ -1,18 +1,46 @@
 package service
 
 import (
+	"backend/cache"
+	"backend/model"
 	"backend/serializer"
-	"go/ast"
+	"backend/util"
+	"context"
+	"strconv"
 )
 
 type ShowDiscussionService struct {
 }
 
-func ShowDiscussionDetail(ID int) serializer.Response serializer.Response{
+func ShowDiscussionDetail(ID int) serializer.Response {
+	if ID < 0 {
+		return serializer.ParamErr("ID错误", nil)
+	}
 
-	return BuildDiscussionDetailResponse()
+	return serializer.BuildDiscussionDetailResponse(model.GetDiscussionDetail(uint(ID)))
 }
 
 func ShowDiscussionOnSignUp() serializer.Response {
+	return serializer.BuildDiscussionListResponse(model.GetDiscussionList())
+}
 
+func ShowDiscussionMember(ID int) serializer.Response {
+	if ID < 0 {
+		return serializer.ParamErr("ID错误", nil)
+	}
+
+	sum := model.GetMemberSum(uint(ID))
+	r, err := cache.RedisClient.Get(context.Background(), "TM" + strconv.Itoa(ID)).Result()
+
+	if err != nil {
+		util.Log().Error(err.Error())
+		return serializer.ParamErr("ID错误", err)
+	}
+	result, _ := strconv.Atoi(r)
+
+	return serializer.Response{
+		Code:  0,
+		Data:  serializer.BuildCountResponse(int(sum), result),
+		Msg:   "Success",
+	}
 }
