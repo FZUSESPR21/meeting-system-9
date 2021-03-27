@@ -84,3 +84,11 @@ func (user *User) GetChairmanDiscussion() Discussion {
 	DB.Model(&user).Association("Discussion").Find(&discussion)
 	return discussion
 }
+
+//GetUserSum 获取用户总数
+func GetUserSum() uint {
+	var users []User
+	DB.Find(users)
+	sum := uint(len(users))
+	return sum
+}

@@ -27,3 +27,20 @@ func ShowDiscussionList() []Discussion {
 	DB.Find(&discussion)
 	return *discussion
 }
+
+//GetMemberSum 根据分论坛ID获取分论坛的人数
+func GetMemberSum(ID uint) uint {
+	var users []User
+	DB.Find(users)
+	var sum uint = 0
+	discussions := new([]Discussion)
+	for _,user := range users{
+		*discussions = user.Discussion
+		for _,discussion := range *discussions{
+			if discussion.ID == ID {
+				sum++
+			}
+		}
+	}
+	return sum
+}
