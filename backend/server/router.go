@@ -8,6 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	// 用户身份
+	// 普通
+	Normal = 0
+	// 秘书
+	Secretory = 1
+	// 分论坛主席
+	DiscussionChairman = 2
+	// 论坛主席
+	MainChairman = 5
+)
+
 // NewRouter 路由配置
 func NewRouter() *gin.Engine {
 	r := gin.Default()
@@ -23,10 +35,12 @@ func NewRouter() *gin.Engine {
 		v1.POST("ping", api.Ping)
 
 		// 用户登录
-		v1.POST("user/register", api.UserRegister)
+		v1.POST("user/signup", api.UserRegister)
 
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
+
+		//v1.GET("discussion/list", api.)
 
 		// 需要登录保护的
 		auth := v1.Group("")
@@ -36,7 +50,21 @@ func NewRouter() *gin.Engine {
 			auth.GET("user/me", api.UserMe)
 			auth.DELETE("user/logout", api.UserLogout)
 
-			//auth.Use(middleware.RoleRequired())
+			//auth.GET("discussion/detail/:id", api.)
+
+			//auth.GET("discussion/member/sum:id", api.)
+
+			auth.Use(middleware.RoleRequired(Secretory))
+			{
+				//auth.POST("secretary/message/send", )
+				//auth.GET("member/list", )
+			}
+
+			auth.Use(middleware.RoleRequired(DiscussionChairman))
+			{
+				//auth.POST("chairman/message/send", )
+				//auth.GET("sum", )
+			}
 		}
 	}
 	return r

@@ -44,3 +44,11 @@ func (service *ShowDiscussionService)  ShowDiscussionMember(ID int) serializer.R
 		Msg:   "Success",
 	}
 }
+
+func ShowAllMember() serializer.Response {
+	return serializer.Response{
+		Code:  0,
+		Data:  serializer.BuildCountResponse(model.GetUserSum(), 0),
+		Msg:   "Success",
+	}
+}
