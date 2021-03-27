@@ -3,7 +3,7 @@ module backend
 go 1.15
 
 require (
-	cloud.google.com/go v0.37.4 // indirect
+	//cloud.google.com/go v0.37.4 // indirect
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.6.3
